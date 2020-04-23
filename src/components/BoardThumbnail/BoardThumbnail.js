@@ -1,13 +1,15 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Thumbnail, Title, TextButton } from "./ThumbnailStyled";
 import { deleteBoard } from "../../store/types";
 
-const BoardThumbnail = ({ title, boardID, index, dispatch }) => {
+const BoardThumbnail = ({ title, boardID, index }) => {
+  const dispatch = useDispatch();
+
   const deleteCurrentBoard = (e) => {
     e.preventDefault();
     dispatch(deleteBoard(boardID, index))
-  }
+  };
   return (
     <Thumbnail>
       <Title>{title}</Title>
@@ -16,4 +18,4 @@ const BoardThumbnail = ({ title, boardID, index, dispatch }) => {
   );
 };
 
-export default connect()(BoardThumbnail);
+export default BoardThumbnail;

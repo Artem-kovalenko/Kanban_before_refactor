@@ -77,7 +77,6 @@ const TrelloList = ({boardTitle, title, cards, listID, boardID, index, dispatch 
                       editedTime={card.editedTime}
                       index={index}
                       listID={listID}
-                      boardID={boardID}
                       boardTitle={boardTitle}
                       listTitle={title}
                     />

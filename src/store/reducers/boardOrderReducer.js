@@ -6,7 +6,7 @@ const boardOrderReducer = (state = initialState, action) => {
     switch(action.type) {
         
         case type.ADD_BOARD: {
-            return [...state, `board-${action.payload.id}`]
+            return [...state, action.payload.id]
         }
 
         case type.DELETE_BOARD: {

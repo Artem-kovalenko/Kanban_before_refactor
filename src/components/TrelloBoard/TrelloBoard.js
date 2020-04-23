@@ -1,28 +1,29 @@
-import React, { PureComponent } from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import TrelloList from "../TrelloList/TrelloList";
 import TrelloCreate from "../TrelloCreate/TrelloCreate";
 import { ListsContainer } from "./TrelloBoardStyled";
 import { sort, setActiveBoard } from "../../store/types";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
+const TrelloBoard = () => {
+  const lists = useSelector((state) => state.lists);
+  const cards = useSelector((state) => state.cards);
+  const { boards } = useSelector((state) => state.boards);
+  const dispatch = useDispatch();
+  const { boardID } = useParams();
 
-class TrelloBoard extends PureComponent {
-  componentDidMount() {
-    // set active trello board here
-    const { boardID } = this.props.match.params;
-    this.props.dispatch(setActiveBoard(boardID));
-  }
+  useEffect(() => {
+    dispatch(setActiveBoard(boardID));
+  });
 
-  onDragEnd = result => {
+  const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
-
     if (!destination) {
       return;
     }
-
-    this.props.dispatch(
+    dispatch(
       sort(
         source.droppableId,
         destination.droppableId,
@@ -34,57 +35,51 @@ class TrelloBoard extends PureComponent {
     );
   };
 
-  render() {
-    const { lists, cards, match, boards } = this.props;
-    const { boardID } = match.params;
-    const board = boards[boardID];
-    if (!board) {
-      return <p>Board not found</p>;
-    }
-    const listOrder = board.lists;
-
-    return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Link to="/">Go back</Link>
-        <h2>{board.title}</h2>
-          <Droppable droppableId="all-lists" direction="horizontal" type="list">
-            {provided => (
-              <ListsContainer
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {listOrder.map((listID, index) => {
-                const list = lists[listID];
-                if (list) {
-                  const listCards = list.cards.map(cardID => cards[cardID]);
-                  return (
-                    <TrelloList
-                      listID={list.id}
-                      key={list.id}
-                      title={list.title}
-                      cards={listCards}
-                      index={index}
-                      boardID={boardID}
-                      boardTitle={board.title}
-                    />
-                  );
-                }
-                return null;} )}
-              {provided.placeholder}
-              <TrelloCreate list />
-            </ListsContainer>
-          )}
-        </Droppable>
-      </DragDropContext>
-    );
+  const board = boards[boardID];
+  console.log(boards[boardID])
+  if (!board) {
+    return <p>Board not found</p>;
   }
-}
+  const listOrder = board.list;
 
-const mapStateToProps = state => ({
-  lists: state.lists,
-  cards: state.cards,
-  boards: state.boards
-});
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Link to="/">Go back</Link>
+      <h2>{board.title}</h2>
+      <Droppable droppableId="all-lists" direction="horizontal" type="list">
+        {(provided) => (
+          <ListsContainer {...provided.droppableProps} ref={provided.innerRef}>
+            {listOrder.map((listID, index) => {
+              const list = lists[listID];
+              if (list) {
+                const listCards = list.cards.map((cardID) => cards[cardID]);
+                return (
+                  <TrelloList
+                    listID={list.id}
+                    key={list.id}
+                    title={list.title}
+                    cards={listCards}
+                    index={index}
+                    boardTitle={board.title}
+                  />
+                );
+              }
+              return null;
+            })}
+            {provided.placeholder}
+            <TrelloCreate list />
+          </ListsContainer>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+};
+
+// const mapStateToProps = state => ({
+//   lists: state.lists,
+//   cards: state.cards,
+//   boards: state.boards
+// });
 
 // const mapStateToProps = {
 //   lists,
@@ -92,5 +87,4 @@ const mapStateToProps = state => ({
 //   boards
 // };
 
-
-export default connect(mapStateToProps)(TrelloBoard);
+export default TrelloBoard;

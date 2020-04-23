@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
@@ -10,7 +10,7 @@ import Modal from "../Modal/Modal";
 import { CardContainer, EditButton, DeleteButton, CreateDiv, TextButton, EditDescriptionButton } from "./TrelloCardStyled";
 import { editCard, deleteCard } from "../../store/types";
 
-const TrelloCard = React.memo(
+const TrelloCard = React.memo(  
   ({
     editedTime,
     createdTime,
@@ -21,36 +21,35 @@ const TrelloCard = React.memo(
     id,
     listID,
     index,
-    dispatch,
   }) => {
-    // используем хук
-    // если isEditing = true тогда у нас будет рендериться компонент для изменения карточки (TrelloForm)
+  
+    // if isEditing = true we will see component for editing cards (TrelloForm)
     const [isEditing, setIsEditing] = useState(false);
     const [cardText, setText] = useState(text);
     const [cardIsEditing, setCardIsEditing] = useState(false);
     const [cardDescriptionText, setCardDescriptionText] = useState(descriptionText);
     const [cardDescriptionIsEditing, setCardDescriptionIsEditing] = useState(false);
+    const dispatch = useDispatch();
 
-    const closeForm = (e) => {
+    const closeForm = () => {
       setIsEditing(false);
       setCardIsEditing(false);
       setCardDescriptionIsEditing(false);
     };
 
-    const handleChange = (e) => {
-      setText(e.target.value);
+    const handleChange = ({ target: { value }}) => {
+      setText(value);
     };
    
-    // по нажатию на кнопку save убрать поле редактирования
     const saveCard = (e) => {
       let editedTime = new Date();
       e.preventDefault();
-      dispatch(editCard({id, listID, cardText, editedTime, cardDescriptionText}));
+      dispatch(editCard({id, cardText, editedTime, cardDescriptionText}));
       setIsEditing(false);
       setCardIsEditing(false);
     };
     
-    const handleDeleteCard = (e) => {
+    const handleDeleteCard = () => {
       dispatch(deleteCard(id, listID));
     };
 
@@ -68,14 +67,14 @@ const TrelloCard = React.memo(
 
     // -----------------------------------
 
-    const handleDescriptionChange = (e) => {
-      setCardDescriptionText(e.target.value);
+    const handleDescriptionChange = ({ target: { value }}) => {
+      setCardDescriptionText(value);
     };
 
     const saveDescription = (e) => {
       let editedTime = new Date();
       e.preventDefault();
-      dispatch(editCard(id, listID, cardText, editedTime, cardDescriptionText));
+      dispatch(editCard({id, cardText, editedTime, cardDescriptionText}));
       setCardDescriptionIsEditing(false);
     } 
 
@@ -168,4 +167,4 @@ const TrelloCard = React.memo(
   }
 );
 
-export default connect()(TrelloCard);
+export default TrelloCard;

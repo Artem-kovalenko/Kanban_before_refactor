@@ -1,28 +1,19 @@
 import * as type from "../types";
 
-
 const initialState = {};
 
 const cardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case type.ADD_CARD: {
-        const { text, listID, id, createdTime } = action.payload;
 
-        const newCard = {
-          text,
-          id: `card-${id}`,
-          list: listID,
-          createdTime: createdTime,
-          editedTime: "",
-          cardDescriptionText:""
-        };
+    case type.ADD_CARD: {
+        const { newCard, id } = action.payload;
         return { ...state, [`card-${id}`]: newCard };
     }
 
     case type.EDIT_CARD: {
-        const{ id, newText, editedTime, cardDescriptionText} = action.payload;
+        const{ id, cardText, editedTime, cardDescriptionText } = action.payload;
         const card = state[id];
-        card.text = newText;
+        card.text = cardText;
         card.editedTime = editedTime;
         card.cardDescriptionText = cardDescriptionText;
         return{ ...state, [`card-${id}`]:card}

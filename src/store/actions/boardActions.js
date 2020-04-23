@@ -17,6 +17,20 @@ export const addBoard = (title) => {
     payload: { title, id },
   };
 };
+// export const addBoard = (title) => {
+//   const ID = uuidv4();
+//   const newBoard = {
+//     id: ID,
+//     title,
+//     lists: []
+//   }
+
+
+//   return {
+//     type: type.ADD_BOARD,
+//     payload: { newBoard, ID },
+//   };
+// };
 
 export const deleteBoard = (boardID, index) => {
 

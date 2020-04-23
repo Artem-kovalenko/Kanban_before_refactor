@@ -6,11 +6,12 @@ import TrelloForm from "../TrelloForm/TrelloForm";
 import TrelloOpenForm from "../TrelloOpenForm/TrelloOpenForm";
 import { OpenFormButton } from "./TrelloCreateStyled"
 import { addList, addCard } from "../../store/types";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
 
-class TrelloCreate extends React.PureComponent {
+class TrelloCreate extends React.Component {
   state = { 
     formOpen: false,
     text: "",
@@ -56,11 +57,12 @@ class TrelloCreate extends React.PureComponent {
     const { text, createdTime } = this.state;
 
     if (text) {
+      const id = uuidv4();
       this.setState({
         text: "",
         createdTime: new Date()
       });
-      dispatch(addCard(listID, text, createdTime));
+      dispatch(addCard({text, listID, id, createdTime}));
     }
     
   };

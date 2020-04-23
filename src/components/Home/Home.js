@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import { Thumbnails, HomeContainer, CreateTitle, CreateInput, TextButton } from "./HomeStyled"
 import { addBoard } from "../../store/types";
 import BoardThumbnail from "../BoardThumbnail/BoardThumbnail";
 
-const Home = ({ boards, boardOrder, dispatch }) => {
-  // this is the home site that shows you your boards and you can also create a Board here.
+const Home = () => {
 
-  // const board = useSelector(state => state.board);
+  const {boards} = useSelector(state => state.boards);
+  const boardOrder = useSelector(state => state.boardOrder)
+  const dispatch   = useDispatch();
 
   const [newBoardTitle, setNewBoardTitle] = useState("");
 
@@ -22,13 +23,11 @@ const Home = ({ boards, boardOrder, dispatch }) => {
     setNewBoardTitle("");
   };
 
-  // const show = () => {
-  //   console.log(boards)
-  //   console.log(boardOrder)
-  // }
-
   const renderBoards = (boardID, index) => {  
-      const board = boards[boardID]
+    
+      const board = boards[boardID];
+      console.log(boards, 'BOARDS')
+      console.log(boardID)
       return (
         <div key={boardID}>
           <Link
@@ -62,8 +61,4 @@ const Home = ({ boards, boardOrder, dispatch }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  boards: state.boards,
-  boardOrder: state.boardOrder
-});
-export default connect(mapStateToProps)(Home);
+export default Home;

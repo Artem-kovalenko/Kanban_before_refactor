@@ -1,6 +1,9 @@
 import * as type from "../types";
 
-const initialState = {};
+// const initialState = {};
+const initialState = {
+  boards: {},
+}
 
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -46,22 +49,35 @@ const boardsReducer = (state = initialState, action) => {
     }
 
     case type.ADD_BOARD: {
-      const { title, id } = action.payload;
-      const newID = `board-${id}`;
-      const newBoard = {
-        id: newID,
-        title,
-        lists: []
-      }
-      return { ...state, [newID]: newBoard };
+      return {
+          ...state,
+          boards: {
+            ...state.boards,
+            [action.payload.id]: {
+              id: action.payload.id,
+              title: action.payload.title,
+              list: []
+            }
+          }
+        };
     }
 
+
     case type.DELETE_BOARD: {
-      const { boardID } = action.payload;
-      const newState = state;
-      delete newState[boardID];
-      console.log(newState)
-      return newState;
+      return {
+        ...state,
+        boards: Object.values(state.boards).filter(board => board.id !== action.payload.boardID).reduce((start,item) => ({
+          ...start,
+          [item.id]: item
+        }),{})
+      };
+      
+
+      // const { boardID } = action.payload;
+      // const newState = state;
+      // delete newState[boardID];
+      // console.log(newState)
+      // return newState;
     }
 
     default:
