@@ -1,7 +1,7 @@
 import * as type from "../types";
 
 const initialState = {
-    boardIndex: [],
+    boardIdx: [],
 }
 
 const activeBoardReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const activeBoardReducer = (state = initialState, action) => {
         case type.SET_ACTIVE_BOARD: {
             return {
                 ...state,
-                boardIndex: action.payload
+                boardId: action.payload
             }
         }
         default:

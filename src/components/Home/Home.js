@@ -7,9 +7,11 @@ import BoardThumbnail from "../BoardThumbnail/BoardThumbnail";
 
 const Home = () => {
 
-  const {boards} = useSelector(state => state.boards);
-  const boardOrder = useSelector(state => state.boardOrder)
-  const dispatch   = useDispatch();
+  const { boards } = useSelector(state => state.boards);
+  // const { lists } = useSelector(state => state.lists)
+  // debugger
+  const dispatch = useDispatch();
+  // const {boardOrder} = useSelector(state => state.boardOrder)
 
   const [newBoardTitle, setNewBoardTitle] = useState("");
 
@@ -23,30 +25,27 @@ const Home = () => {
     setNewBoardTitle("");
   };
 
-  const renderBoards = (boardID, index) => {  
-    
-      const board = boards[boardID];
+  const renderBoards = (boardItiem) => {  
+      const board = boards[boardItiem.id];
       console.log(boards, 'BOARDS')
-      console.log(boardID)
+      console.log(boardItiem)
       return (
-        <div key={boardID}>
+        <div key={boardItiem.id}>
           <Link
             to={`/board/${board.id}`}
             style={{ textDecoration: "none" }}
           >
           <BoardThumbnail 
-            boardID={boardID}
-            index={index}  
+            boardID={boardItiem.id}
             {...board} 
             />
           </Link> 
         </div>  
       );
   };
-
   return (
     <HomeContainer>
-    <Thumbnails>{boardOrder.map(renderBoards)}</Thumbnails>
+    <Thumbnails>{Object.values(boards).map(renderBoards)}</Thumbnails>
       <form onSubmit={handleSubmit} style={{textAlign: "center" }}>
         <CreateTitle>Create a new Board</CreateTitle>
         <CreateInput

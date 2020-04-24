@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { Thumbnail, Title, TextButton } from "./ThumbnailStyled";
 import { deleteBoard } from "../../store/types";
 
-const BoardThumbnail = ({ title, boardID, index }) => {
+const BoardThumbnail = ({ title, boardID }) => {
   const dispatch = useDispatch();
 
   const deleteCurrentBoard = (e) => {
     e.preventDefault();
-    dispatch(deleteBoard(boardID, index))
+    dispatch(deleteBoard(boardID))
   };
   return (
     <Thumbnail>

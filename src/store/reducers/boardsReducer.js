@@ -1,21 +1,22 @@
 import * as type from "../types";
 
-// const initialState = {};
 const initialState = {
   boards: {},
 }
 
 const boardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case type.ADD_LIST: {
-      
-      const { boardID, id } = action.payload;
-      const board = state[boardID];
-      const newListID = `list-${id}`;
-      const newLists = [...board.lists, newListID];
-      board.lists = newLists;
-      return { ...state, [boardID]: board };
-    }
+    // case type.ADD_LIST: {
+    //   const { boardID, id } = action.payload;
+    //   // const board = state.boards[boardID];
+    //   const newListID = `list-${id}`;
+    //   const {lists} = state.boards[boardID]
+    //   debugger
+    //   // const newLists = [...board.lists, newListID];
+
+    //   // board.lists = newLists;
+    //   return { ...state.boards[boardID].lists, newListID };
+    // }
 
     case type.DRAG_HAPPENED: {
       const { boardID } = action.payload;
@@ -39,47 +40,38 @@ const boardsReducer = (state = initialState, action) => {
       return state;
     }
 
-    case type.DELETE_LIST: {
-      const { listID, boardID } = action.payload;
-      const board = state[boardID];
-      const lists = board.lists;
-      const newLists = lists.filter(id => id !== listID);
-      board.lists = newLists;
-      return { ...state, [boardID]: board };
-    }
+    // case type.DELETE_LIST: {
+    //   const { listID, boardID } = action.payload;
+    //   const board = state[boardID];
+    //   const lists = board.lists;
+    //   const newLists = lists.filter(id => id !== listID);
+    //   board.lists = newLists;
+    //   return { ...state, [boardID]: board };
+    // }
 
-    case type.ADD_BOARD: {
+    case type.ADD_BOARD: {   // DONE
       return {
           ...state,
           boards: {
             ...state.boards,
             [action.payload.id]: {
               id: action.payload.id,
-              title: action.payload.title,
-              list: []
+              title: action.payload.title
             }
           }
         };
     }
 
-
-    case type.DELETE_BOARD: {
+    case type.DELETE_BOARD: {// DONE
       return {
         ...state,
         boards: Object.values(state.boards).filter(board => board.id !== action.payload.boardID).reduce((start,item) => ({
           ...start,
           [item.id]: item
         }),{})
+        
       };
-      
-
-      // const { boardID } = action.payload;
-      // const newState = state;
-      // delete newState[boardID];
-      // console.log(newState)
-      // return newState;
     }
-
     default:
       return state;
   }

@@ -24,7 +24,7 @@ const TrelloList = ({boardTitle, title, cards, listID, boardID, index, dispatch 
       </form>
     );
   };
-
+debugger
   const handleFocus = (e) => {
     e.target.select();
   };
@@ -67,22 +67,25 @@ const TrelloList = ({boardTitle, title, cards, listID, boardID, index, dispatch 
                   )}
                 </div>
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {cards.map((card, index) => (
-                    <TrelloCard
-                      key={card.id}
-                      text={card.text}
-                      descriptionText={card.cardDescriptionText}
-                      id={card.id}
-                      createdTime={card.createdTime}
-                      editedTime={card.editedTime}
-                      index={index}
-                      listID={listID}
-                      boardTitle={boardTitle}
-                      listTitle={title}
-                    />
-                  ))}
+                
+              {
+                // {cards.map((card, index) => (                    
+                //   <TrelloCard
+                //     key={card.id}
+                //     text={card.text}
+                //     descriptionText={card.cardDescriptionText}
+                //     id={card.id}
+                //     createdTime={card.createdTime}
+                //     editedTime={card.editedTime}
+                //     index={index}
+                //     listID={listID}
+                //     boardTitle={boardTitle}
+                //     listTitle={title}
+                //   />
+                // ))}
+              }
                   {provided.placeholder}
-                  <TrelloCreate listID={listID} />
+                  <TrelloCreate listID={listID} boardID={boardID} />
                 </div>
               </div>             
             )}
@@ -92,5 +95,8 @@ const TrelloList = ({boardTitle, title, cards, listID, boardID, index, dispatch 
     </Draggable>
   );
 };
+
+
+
 
 export default connect()(TrelloList);

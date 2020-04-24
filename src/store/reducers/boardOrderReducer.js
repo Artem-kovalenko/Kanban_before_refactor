@@ -1,23 +1,36 @@
-import * as type from "../types";
+// import * as type from "../types";
 
-const initialState = [];
+// const initialState = {
+//   boardOrder: {},
+// };
 
-const boardOrderReducer = (state = initialState, action) => {
-    switch(action.type) {
-        
-        case type.ADD_BOARD: {
-            return [...state, action.payload.id]
-        }
+// const boardOrderReducer = (state = initialState, action) => {
+//   switch (action.type) {
+//     case type.ADD_BOARD: {      // DONE
+//       return {
+//         ...state,
+//         boardOrder: {
+//           ...state.boardOrder,
+//           [action.payload.id]: action.payload.id,
+//         },
+//       };
+//     }
 
-        case type.DELETE_BOARD: {
-            const { index } = action.payload;
-            delete state[index];
-            let newState = state.filter(board => board !== undefined)
-            return newState;
-        }
-        default:
-            return state;
-    }
-}
+//     case type.DELETE_BOARD: {   // DONE
+//       return {
+//         ...state,
+//         boardOrder: Object.values(state.boardOrder)
+//           .filter((boardOrder) => boardOrder !== action.payload.boardID)
+//           .reduce((start, item) => ({
+//               ...start,
+//               [item]: item,
+//             }),{}
+//           ),
+//       };
+//     }
+//     default:
+//       return state;
+//   }
+// };
 
-export default boardOrderReducer;
+// export default boardOrderReducer;

@@ -9,7 +9,7 @@ import { addList, addCard } from "../../store/types";
 import { v4 as uuidv4 } from 'uuid';
 
 
-
+// ПЕРЕДЕЛАТЬ НА ФУНКЦИОНАЛЬНЫЙ КОМПОНЕНТ И ХУКИ ЧТОБ ПОЛУЧАЕТЬНОРМАЛЬНО АЙДИ ДОСКИ И ПЕРЕДАВАТЬ ЧТОБ У КАЖДОГО ЛИСТА ВЫСВЕЧИВАЛСЯ АЙДИ В КОТОРОМ ОН НАХОДИТСЯ
 
 class TrelloCreate extends React.Component {
   state = { 

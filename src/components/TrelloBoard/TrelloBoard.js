@@ -8,7 +8,7 @@ import { sort, setActiveBoard } from "../../store/types";
 import { Link, useParams } from "react-router-dom";
 
 const TrelloBoard = () => {
-  const lists = useSelector((state) => state.lists);
+  const {lists} = useSelector((state) => state.lists);
   const cards = useSelector((state) => state.cards);
   const { boards } = useSelector((state) => state.boards);
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const TrelloBoard = () => {
   if (!board) {
     return <p>Board not found</p>;
   }
-  const listOrder = board.list;
+  // const listOrder = board.list;
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -49,16 +49,17 @@ const TrelloBoard = () => {
       <Droppable droppableId="all-lists" direction="horizontal" type="list">
         {(provided) => (
           <ListsContainer {...provided.droppableProps} ref={provided.innerRef}>
-            {listOrder.map((listID, index) => {
-              const list = lists[listID];
-              if (list) {
-                const listCards = list.cards.map((cardID) => cards[cardID]);
+            {Object.values(lists).map((listItem, index) => {
+              const list = lists[listItem.id];
+              if (list) { 
+                // const listCards = list.cards.map((cardID) => cards[cardID]);
                 return (
                   <TrelloList
                     listID={list.id}
+                    boardID={boardID}
                     key={list.id}
                     title={list.title}
-                    cards={listCards}
+                    cards={cards}
                     index={index}
                     boardTitle={board.title}
                   />

@@ -2,18 +2,31 @@
 import { ADD_LIST, DRAG_HAPPENED, EDIT_LIST_TITLE, DELETE_LIST} from "../types"
 import { v4 as uuidv4 } from 'uuid';
 
-export const addList = (title) => {
+// export const addList = (title) => {
+//   const id = uuidv4();
+//   return (dispatch, getState) => {
+//     const boardID = getState().activeBoard.boardId;
+//     // const boardID = activeBoard.boardId
+//     console.log(boardID)
+//     // debugger
+//     dispatch({
+//       type: ADD_LIST,
+//       payload: { title, boardID, id },
+//     });
+//   };
+// };
+export const addList = (title, boardID) => {
   const id = uuidv4();
-  return (dispatch, getState) => {
-    const boardID = getState().activeBoard.boardId;
-    // const boardID = activeBoard.boardId
-    console.log(boardID)
-    dispatch({
-      type: ADD_LIST,
-      payload: { title, boardID, id },
-    });
+  debugger
+  return  {
+    type: ADD_LIST,
+    payload: {
+        title,
+        id,
+        boardID
+      },
+    };
   };
-};
 
 export const sort = (
   droppableIdStart,
